@@ -29,6 +29,11 @@ namespace Administrator.Panels.VehicleManagement
             Context = context;
         }
 
+        /// <summary>
+        /// Contexte du PanelsManager.
+        /// </summary>
+        PanelsManager panelsManager = new PanelsManager(Context);
+
         #endregion
 
         #region Vehicle Management
@@ -41,7 +46,16 @@ namespace Administrator.Panels.VehicleManagement
         {
             Administrator_Configuration.Reload();
             var configuration = Administrator_Configuration.Data;
-            LifeVehicle vehicle = Nova.v.GetVehicle(player.GetClosestVehicle().VehicleDbId);
+
+            var closestVehicle = player.GetClosestVehicle();
+            if (closestVehicle == null)
+            {
+                player.Notify(c.Format(c.RedColor, "Aucun véhicule proche"), "Aucun véhicule n'est à proxité de vous !", Life.NotificationManager.Type.Error);
+                panelsManager.MainPanel(player);
+                return;
+            }
+
+            LifeVehicle vehicle = Nova.v.GetVehicle(closestVehicle.VehicleDbId);
 
             Panel panel = Context.PanelHelper.Create(t.Title("Gestion des véhicules", "Faites un choix", c.GreenColor), Life.UI.UIPanel.PanelType.Tab, player, () => VehicleManagementPanel(player));
 
@@ -49,8 +63,7 @@ namespace Administrator.Panels.VehicleManagement
             {
                 if (player.account.adminLevel >= configuration.Permissions_GestionVehicules_Déplacement)
                 {
-                    if (vehicle != null) MoveVehicleForward(player, vehicle);
-                    else player.Notify(c.Format(c.RedColor, "Aucun véhicule proche"), "Aucun véhicule n'est à proxité de vous !", Life.NotificationManager.Type.Error);
+                    MoveVehicleForward(player, vehicle);
                 }
                 else
                 {
@@ -62,8 +75,7 @@ namespace Administrator.Panels.VehicleManagement
             {
                 if (player.account.adminLevel >= configuration.Permissions_GestionVehicules_Déplacement)
                 {
-                    if (vehicle != null) MoveVehicleBackward(player, vehicle);
-                    else player.Notify(c.Format(c.RedColor, "Aucun véhicule proche"), "Aucun véhicule n'est à proxité de vous !", Life.NotificationManager.Type.Error);
+                    MoveVehicleBackward(player, vehicle);
                 }
                 else
                 {
@@ -75,8 +87,7 @@ namespace Administrator.Panels.VehicleManagement
             {
                 if (player.account.adminLevel >= configuration.Permissions_GestionVehicules_Déplacement)
                 {
-                    if (vehicle != null) MoveVehicleLeft(player, vehicle);
-                    else player.Notify(c.Format(c.RedColor, "Aucun véhicule proche"), "Aucun véhicule n'est à proxité de vous !", Life.NotificationManager.Type.Error);
+                    MoveVehicleLeft(player, vehicle);
                 }
                 else
                 {
@@ -88,8 +99,7 @@ namespace Administrator.Panels.VehicleManagement
             {
                 if (player.account.adminLevel >= configuration.Permissions_GestionVehicules_Déplacement)
                 {
-                    if (vehicle != null) MoveVehicleRight(player, vehicle);
-                    else player.Notify(c.Format(c.RedColor, "Aucun véhicule proche"), "Aucun véhicule n'est à proxité de vous !", Life.NotificationManager.Type.Error);
+                    MoveVehicleRight(player, vehicle);
                 }
                 else
                 {
@@ -101,8 +111,7 @@ namespace Administrator.Panels.VehicleManagement
             {
                 if (player.account.adminLevel >= configuration.Permissions_GestionVehicules_Déplacement)
                 {
-                    if (vehicle != null) MoveVehicleUp(player, vehicle);
-                    else player.Notify(c.Format(c.RedColor, "Aucun véhicule proche"), "Aucun véhicule n'est à proxité de vous !", Life.NotificationManager.Type.Error);
+                    MoveVehicleUp(player, vehicle);
                 }
                 else
                 {
@@ -114,8 +123,7 @@ namespace Administrator.Panels.VehicleManagement
             {
                 if (player.account.adminLevel >= configuration.Permissions_GestionVehicules_Déplacement)
                 {
-                    if (vehicle != null) MoveVehicleDown(player, vehicle);
-                    else player.Notify(c.Format(c.RedColor, "Aucun véhicule proche"), "Aucun véhicule n'est à proxité de vous !", Life.NotificationManager.Type.Error);
+                    MoveVehicleDown(player, vehicle);
                 }
                 else
                 {
@@ -127,8 +135,7 @@ namespace Administrator.Panels.VehicleManagement
             {
                 if (player.account.adminLevel >= configuration.Permissions_GestionVehicules_Déplacement)
                 {
-                    if (vehicle != null) FlipVehicle(player, vehicle);
-                    else player.Notify(c.Format(c.RedColor, "Aucun véhicule proche"), "Aucun véhicule n'est à proxité de vous !", Life.NotificationManager.Type.Error);
+                    FlipVehicle(player, vehicle);
                 }
                 else
                 {
@@ -140,8 +147,7 @@ namespace Administrator.Panels.VehicleManagement
             {
                 if (player.account.adminLevel >= configuration.Permissions_GestionVehicules_Réparation)
                 {
-                    if (vehicle != null) RepairVehicle(player, vehicle);
-                    else player.Notify(c.Format(c.RedColor, "Aucun véhicule proche"), "Aucun véhicule n'est à proxité de vous !", Life.NotificationManager.Type.Error);
+                    RepairVehicle(player, vehicle);
                 }
                 else
                 {
@@ -153,8 +159,7 @@ namespace Administrator.Panels.VehicleManagement
             {
                 if (player.account.adminLevel >= configuration.Permissions_GestionVehicules_Remplissage)
                 {
-                    if (vehicle != null) RefuelVehicle(player, vehicle);
-                    else player.Notify(c.Format(c.RedColor, "Aucun véhicule proche"), "Aucun véhicule n'est à proxité de vous !", Life.NotificationManager.Type.Error);
+                    RefuelVehicle(player, vehicle);
                 }
                 else
                 {
@@ -166,8 +171,7 @@ namespace Administrator.Panels.VehicleManagement
             {
                 if (player.account.adminLevel >= configuration.Permissions_GestionVehicules_Rangement)
                 {
-                    if (vehicle != null) StowVehicle(player, vehicle);
-                    else player.Notify(c.Format(c.RedColor, "Aucun véhicule proche"), "Aucun véhicule n'est à proxité de vous !", Life.NotificationManager.Type.Error);
+                    StowVehicle(player, vehicle);
                 }
                 else
                 {
@@ -178,11 +182,6 @@ namespace Administrator.Panels.VehicleManagement
 
             panel.PreviousButton(c.Format(c.BlueColor, "Retour"));
             panel.AddButton(c.Format(c.GreenColor, "Sélectionner"), ui => panel.SelectTab());
-            //panel.NextButton(c.Format(c.GreenColor, "Sélectionner"), () =>
-            //{
-            //    panel.SelectTab();
-            //    panel.Refresh();
-            //});
 
             panel.Display();
         }
