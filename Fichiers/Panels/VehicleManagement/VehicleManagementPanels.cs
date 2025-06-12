@@ -15,6 +15,7 @@ namespace Administrator.Panels.VehicleManagement
     public class VehicleManagementPanels
     {
         #region Context
+            
         /// <summary>
         /// Contexte global du plugin.
         /// </summary>
