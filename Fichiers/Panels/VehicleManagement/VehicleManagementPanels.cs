@@ -15,7 +15,6 @@ namespace Administrator.Panels.VehicleManagement
     public class VehicleManagementPanels
     {
         #region Context
-            
         /// <summary>
         /// Contexte global du plugin.
         /// </summary>
@@ -30,11 +29,6 @@ namespace Administrator.Panels.VehicleManagement
             Context = context;
         }
 
-        /// <summary>
-        /// Contexte du PanelsManager.
-        /// </summary>
-        PanelsManager panelsManager = new PanelsManager(Context);
-
         #endregion
 
         #region Vehicle Management
@@ -48,15 +42,7 @@ namespace Administrator.Panels.VehicleManagement
             Administrator_Configuration.Reload();
             var configuration = Administrator_Configuration.Data;
 
-            var closestVehicle = player.GetClosestVehicle();
-            if (closestVehicle == null)
-            {
-                player.Notify(c.Format(c.RedColor, "Aucun véhicule proche"), "Aucun véhicule n'est à proxité de vous !", Life.NotificationManager.Type.Error);
-                panelsManager.MainPanel(player);
-                return;
-            }
-
-            LifeVehicle vehicle = Nova.v.GetVehicle(closestVehicle.VehicleDbId);
+            LifeVehicle vehicle = Nova.v.GetVehicle((int)player.GetVehicleId());
 
             Panel panel = Context.PanelHelper.Create(t.Title("Gestion des véhicules", "Faites un choix", c.GreenColor), Life.UI.UIPanel.PanelType.Tab, player, () => VehicleManagementPanel(player));
 
