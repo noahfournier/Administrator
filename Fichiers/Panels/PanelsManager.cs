@@ -66,7 +66,7 @@ namespace Administrator.Panels
             panel.AddTabLine(t.TabInfo("Gestion des joueurs", "Gestion complète des joueurs.", c.BlueColor), "", ItemUtils.GetIconIdByItemId(1349), ui => PlayerManagementPanels.PlayerManagementPanel(player));
             panel.AddTabLine(t.TabInfo("Gestion des véhicules", "Gestion complète des véhicules.", c.GreenColor), "", VehicleUtils.GetIconId(55), ui =>
             {
-                var inVehicle = player.GetVehicle() ? true : false;
+                var inVehicle = player.GetVehicleId() == 0 ? false : true;
                 if (inVehicle) VehicleManagementPanels.VehicleManagementPanel(player);
                 else player.Notify(c.Format(c.RedColor, "Aucun véhicule"), "Vous n'êtes pas dans un véhicule !", Life.NotificationManager.Type.Error);
             });
