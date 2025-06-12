@@ -42,7 +42,7 @@ namespace Administrator.Panels.VehicleManagement
             Administrator_Configuration.Reload();
             var configuration = Administrator_Configuration.Data;
 
-            LifeVehicle vehicle = Nova.v.GetVehicle((int)player.GetVehicleId());
+            LifeVehicle vehicle = Nova.v.GetVehicle(player.GetClosestVehicle().VehicleDbId);
 
             Panel panel = Context.PanelHelper.Create(t.Title("Gestion des véhicules", "Faites un choix", c.GreenColor), Life.UI.UIPanel.PanelType.Tab, player, () => VehicleManagementPanel(player));
 
