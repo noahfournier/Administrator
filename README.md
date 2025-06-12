@@ -4,7 +4,7 @@
 Administrator est une solution tout-en-un pour la gestion avancée des serveurs Nova-Life, offrant aux administrateurs un contrôle complet sur les joueurs, les véhicules et les événements en jeu.
 
 ## 🌐 Plugin Open Source
-Le code de ce plugin est disponible librement dans `Fichiers`. Ainsi, vous pouvez voir ce que vous mettez sur votre serveur, aucun élément caché !
+Le code de ce plugin est disponible librement dans [`Fichiers`](https://github.com/noahfournier/Administrator/tree/main/Fichiers). Ainsi, vous pouvez voir ce que vous mettez sur votre serveur, aucun élément caché !
 Pour les développeurs ou apprentis développeurs, vous pouvez comprendre comment coder un plugin dans son global.
 
 ## 🌟 Fonctionnalités principales
