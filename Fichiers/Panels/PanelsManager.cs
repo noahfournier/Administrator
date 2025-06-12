@@ -64,7 +64,12 @@ namespace Administrator.Panels
             Panel panel = Context.PanelHelper.Create(t.Title(configuration.Nom, configuration.Description, c.WhiteColor), Life.UI.UIPanel.PanelType.TabPrice, player, () => MainPanel(player));
 
             panel.AddTabLine(t.TabInfo("Gestion des joueurs", "Gestion complète des joueurs.", c.BlueColor), "", ItemUtils.GetIconIdByItemId(1349), ui => PlayerManagementPanels.PlayerManagementPanel(player));
-            panel.AddTabLine(t.TabInfo("Gestion des véhicules", "Gestion complète des véhicules.", c.GreenColor), "", VehicleUtils.GetIconId(55), ui => VehicleManagementPanels.VehicleManagementPanel(player));
+            panel.AddTabLine(t.TabInfo("Gestion des véhicules", "Gestion complète des véhicules.", c.GreenColor), "", VehicleUtils.GetIconId(55), ui =>
+            {
+                var closestVehicle = player.GetVehicleId();
+                if (closestVehicle != 0) VehicleManagementPanels.VehicleManagementPanel(player);
+                else player.Notify(c.Format(c.RedColor, "Aucun véhicule"), "Vous n'êtes pas dans un véhicule !", Life.NotificationManager.Type.Error);
+            });
             panel.AddTabLine(t.TabInfo("Gestion des événements", "Gestion complète des événements.", c.YellowColor), "", ItemUtils.GetIconIdByItemId(1311), ui => EventManagementPanels.EventManagementPanel(player));
 
             panel.CloseButton(c.Format(c.RedColor, "Fermer"));
